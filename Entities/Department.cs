@@ -1,6 +1,8 @@
 ﻿namespace ComplaintRequestSystem.Entities
 {
-    public class Deparment
+    public class Department : BaseEntity
     {
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }
