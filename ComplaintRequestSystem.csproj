@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Context\Entity Configuration\" />
-    <Folder Include="Helper\" />
     <Folder Include="ActionFilters\" />
     <Folder Include="Repository\Implementations\" />
     <Folder Include="Repository\Interfaces\" />
