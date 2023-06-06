@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
     <Folder Include="Context\" />
     <Folder Include="Helper\" />
     <Folder Include="ActionFilters\" />
@@ -15,6 +14,10 @@
     <Folder Include="Repository\Interfaces\" />
     <Folder Include="Service\Implementations\" />
     <Folder Include="Service\Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NewId" Version="4.0.1" />
   </ItemGroup>
 
 </Project>
