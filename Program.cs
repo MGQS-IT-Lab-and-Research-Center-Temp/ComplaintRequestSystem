@@ -1,7 +1,15 @@
+using ComplaintRequestSystem.Context;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ComplaintRequestSystemContext>(option =>
+    option.UseMySQL(builder.Configuration.GetConnectionString("ComplaintRequestSystemContext")));
+
+builder.Services.AddScoped<DbInitializer>();
+
 
 var app = builder.Build();
 
