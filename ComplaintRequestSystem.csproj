@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <Folder Include="ActionFilters\" />
-    <Folder Include="Service\Implementations\" />
-    <Folder Include="Service\Interfaces\" />
   </ItemGroup>
 
   <ItemGroup>
