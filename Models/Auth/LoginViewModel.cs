@@ -1,4 +1,6 @@
-﻿namespace ComplaintRequestSystem.Models.Auth
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ComplaintRequestSystem.Models.Auth
 {
     public class LoginViewModel
     {
