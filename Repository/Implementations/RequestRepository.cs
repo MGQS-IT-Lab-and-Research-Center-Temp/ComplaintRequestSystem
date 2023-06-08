@@ -55,13 +55,13 @@ namespace ComplaintRequestSystem.Repository.Implementations
 
         public List<DepartmentRequest> SelectRequestByDepartment()
         {
-            var complaints = _context.DepartmentRequests
+            var requests = _context.DepartmentRequests
                 .Include(d => d.Department)
                 .Include(r => r.Request)
                 .ThenInclude(u => u.User)
                 .ToList();
 
-            return complaints;
+            return requests;
         }
     }
 }
