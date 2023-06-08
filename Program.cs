@@ -1,8 +1,11 @@
+using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
 using ComplaintRequestSystem.Context;
 using ComplaintRequestSystem.Repository.Implementations;
 using ComplaintRequestSystem.Repository.Interfaces;
 using ComplaintRequestSystem.Service.Implementations;
 using ComplaintRequestSystem.Service.Interfaces;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,10 +24,31 @@ builder.Services.AddScoped<IRequestService, RequestService>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+builder.Services.AddNotyf(config =>
+{
+
+    config.DurationInSeconds = 10;
+    config.IsDismissable = true;
+    config.Position = NotyfPosition.TopRight;
+    config.HasRippleEffect = true;
+
+});
+
 builder.Services.AddDbContext<ComplaintRequestSystemContext>(option =>
     option.UseMySQL(builder.Configuration.GetConnectionString("ComplaintRequestSystemContext")));
 
 builder.Services.AddScoped<DbInitializer>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+               .AddCookie(config =>
+               {
+                   config.LoginPath = "/home/login";
+                   config.Cookie.Name = "ComplaintRequestSystem";
+                   config.ExpireTimeSpan = TimeSpan.FromDays(1);
+                   config.AccessDeniedPath = "/home/privacy";
+               });
+builder.Services.AddHttpContextAccessor();
 
 
 var app = builder.Build();
@@ -41,8 +65,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.SeedToDatabase();
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
+app.UseNotyf();
 
 app.MapControllerRoute(
     name: "default",
