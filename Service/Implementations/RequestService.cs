@@ -5,6 +5,7 @@ using ComplaintRequestSystem.Repository.Interfaces;
 using ComplaintRequestSystem.Service.Interfaces;
 using System.Linq.Expressions;
 using System.Security.Claims;
+using ComplaintRequestSystem.Models.Complaint;
 
 namespace ComplaintRequestSystem.Service.Implementations
 {
@@ -34,7 +35,7 @@ namespace ComplaintRequestSystem.Service.Implementations
                 CreatedBy = createdBy,
             };
 
-            var departments = _unitOfWork.Requests.GetAllByIds(request.RequestsIds);
+            var departments = _unitOfWork.Requests.GetAllByIds(request.DepartmentIds);
 
             var departmentRequests = new HashSet<DepartmentRequest>();
 
@@ -144,7 +145,42 @@ namespace ComplaintRequestSystem.Service.Implementations
             return response;
         }
 
-        public RequestResponseModel GetRequest(string requestId)
+        public RequestsResponseModel GetRequestsByDepartmentId(string departmentId)
+        {
+            var response = new RequestsResponseModel();
+
+            try
+            {
+                var requests = _unitOfWork.Requests.GetRequestsByDepartmentId(departmentId);
+
+                if (requests.Count == 0)
+                {
+                    response.Message = "No complaint found!";
+                    return response;
+                }
+
+                response.Data = requests
+                                    .Select(request => new RequestViewModel
+                                    {
+                                        Id = request.Id,
+                                        RequestText = request.Request.RequestText,
+                                        UserName = request.Request.User.UserName,
+                                        ImageUrl = request.Request.ImageUrl
+                                    }).ToList();
+
+                response.Status = true;
+                response.Message = "Success";
+            }
+            catch (Exception ex)
+            {
+                response.Message = $"An error occured: {ex.StackTrace}";
+                return response;
+            }
+
+            return response;
+        } 
+
+	    public RequestResponseModel GetRequest(string requestId)
         {
             var response = new RequestResponseModel();
             var requestExist = _unitOfWork.Requests.Exists(q => q.Id == requestId && q.IsDeleted == false);
@@ -181,6 +217,7 @@ namespace ComplaintRequestSystem.Service.Implementations
 
             return response;
         }
+
 
         public BaseResponseModel UpdateRequest(string requestId, UpdateRequestViewModel request)
         {
@@ -222,5 +259,6 @@ namespace ComplaintRequestSystem.Service.Implementations
             }
         }
     }
+
 }
 

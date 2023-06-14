@@ -1,0 +1,31 @@
+﻿@model ComplaintRequestSystem.Models.Request.RequestViewModel
+
+@{
+    ViewData["Title"] = "Request Detail";
+}
+
+<div class="body">
+
+    @if (Model is not null)
+    {
+        <div class="card">
+
+            <img src="@Model.ImageUrl" class="card-img-top" />
+
+            <div class="card-header">
+
+                <h5>
+                    Complaint Text: @Model.RequestText
+                </h5>
+                <p>
+                    Complaint Status: @Model.RequestStatus
+                </p>
+
+
+
+
+            </div>
+        </div>
+    }
+
+

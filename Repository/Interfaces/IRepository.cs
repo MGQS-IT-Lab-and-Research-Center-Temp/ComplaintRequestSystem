@@ -1,7 +1,7 @@
 ﻿using ComplaintRequestSystem.Entities;
 using System.Linq.Expressions;
 
-namespace ComplaintRequestSystem.Repository.Interfaces
+namespace ComplaintRequestSystem.Repository
 {
     public interface IRepository<T> where T : BaseEntity, new()
     {

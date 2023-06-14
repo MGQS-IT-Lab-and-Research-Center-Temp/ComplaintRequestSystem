@@ -5,11 +5,13 @@ namespace ComplaintRequestSystem.Models.Complaint
 {
     public class CreateComplaintViewModel
     {
-        public string UserId { get; set; }
-        public List<string> ComplaintsIds { get; set; }
-        public DepartmentComplaint Department { get; set; }
-        [Required(ErrorMessage = "Complaint text cannot be empty")]
-        [MinLength(20, ErrorMessage = "The minimum length is 20.")]
+        [Required(ErrorMessage = "One or more Department need to be selected")]
+        public List<string> DepartmentIds { get; set; }
+
+        [Required(ErrorMessage = "Complaint text required")]
+        [MinLength(20, ErrorMessage = "Minimum of 20 character required")]
+        [MaxLength(150, ErrorMessage = "Maximum of 150 character required")]
         public string ComplaintText { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }

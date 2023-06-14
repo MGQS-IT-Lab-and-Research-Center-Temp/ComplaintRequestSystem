@@ -51,7 +51,7 @@ namespace ComplaintRequestSystem.Repository.Implementations
             return _context.Set<T>().ToList();
         }
 
-        public List<T> GetAll(Expression<Func<T, bool>> expression = null)
+        public List<T> GetAll(Expression<Func<T, bool>> expression)
         {
             return _context.Set<T>().Where(expression).ToList();
         }

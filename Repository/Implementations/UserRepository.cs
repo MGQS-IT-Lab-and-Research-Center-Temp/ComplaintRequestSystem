@@ -14,9 +14,11 @@ namespace ComplaintRequestSystem.Repository.Implementations
 
         public User GetUser(Expression<Func<User, bool>> expression)
         {
-            return _context.Users
+			return _context.Users
                 .Include(r => r.Role)
                 .SingleOrDefault(expression);
+				
+               
         }
     }
 }

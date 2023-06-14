@@ -1,6 +1,6 @@
 ﻿using ComplaintRequestSystem.Entities;
-using ComplaintRequestSystem.Models.Complaint;
 using ComplaintRequestSystem.Models;
+using ComplaintRequestSystem.Models.Complaint;
 using ComplaintRequestSystem.Repository.Interfaces;
 using ComplaintRequestSystem.Service.Interfaces;
 using System.Linq.Expressions;
@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace ComplaintRequestSystem.Service.Implementations
 {
-    public class ComplaintService : IComplaintService
+	public class ComplaintService : IComplaintService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUnitOfWork _unitOfWork;
@@ -31,10 +31,14 @@ namespace ComplaintRequestSystem.Service.Implementations
             {
                 UserId = user.Id,
                 ComplaintText = request.ComplaintText,
+                ImageUrl = request.ImageUrl,
                 CreatedBy = createdBy,
             };
 
-            var departments = _unitOfWork.Complaints.GetAllByIds(request.ComplaintsIds);
+           
+
+            var departments = _unitOfWork.Departments.GetAllByIds(request.DepartmentIds);
+
 
             var departmentComplaints = new HashSet<DepartmentComplaint>();
 
@@ -43,7 +47,8 @@ namespace ComplaintRequestSystem.Service.Implementations
                 var departmentComplaint = new DepartmentComplaint
                 {
                     DepartmentId = department.Id,
-                    Department = department.Department,
+                    ComplaintId = complaint.Id,
+                    Department = department,
                     Complaint = complaint,
                     CreatedBy = createdBy
                 };
@@ -104,6 +109,44 @@ namespace ComplaintRequestSystem.Service.Implementations
                 return response;
             }
         }
+
+        public ComplaintsResponseModel DisplayComplaint()
+        {
+
+			var response = new ComplaintsResponseModel();
+
+			try
+			{
+				var complaints = _unitOfWork.Complaints.GetComplaints();
+
+				if (complaints.Count == 0)
+				{
+					response.Message = "No complaint found!";
+					return response;
+				}
+
+				response.Data = complaints
+					.Where(q => !q.IsDeleted)
+					.Select(complaint => new ComplaintViewModel
+					{
+						Id = complaint.Id,
+						UserId = complaint.UserId,
+						ComplaintText = complaint.ComplaintText,
+						UserName = complaint.User.UserName,
+						ImageUrl = complaint.ImageUrl,
+					}).ToList();
+
+				response.Status = true;
+				response.Message = "Success";
+			}
+			catch (Exception ex)
+			{
+				response.Message = $"An error occured: {ex.Message}";
+				return response;
+			}
+
+			return response;
+		}
 
         public ComplaintsResponseModel GetAllComplaint()
         {
@@ -177,6 +220,41 @@ namespace ComplaintRequestSystem.Service.Implementations
                 UserId = complaint.UserId,
                 UserName = complaint.User.UserName,
             };
+
+            return response;
+        }
+
+        public ComplaintsResponseModel GetComplaintsByDepartmentId(string departmentId)
+        {
+            var response = new ComplaintsResponseModel();
+
+            try
+            {
+                var complaints = _unitOfWork.Complaints.GetComplaintByDepartmentId(departmentId);
+
+                if (complaints.Count == 0)
+                {
+                    response.Message = "No complaint found!";
+                    return response;
+                }
+
+                response.Data = complaints
+									.Select(complaint => new ComplaintViewModel
+                                    {
+                                        Id = complaint.Id,
+                                        ComplaintText = complaint.Complaint.ComplaintText,
+                                        UserName = complaint.Complaint.User.UserName,
+                                        ImageUrl = complaint.Complaint.ImageUrl,
+                                    }).ToList();
+
+                response.Status = true;
+                response.Message = "Success";
+            }
+            catch (Exception ex)
+            {
+                response.Message = $"An error occured: {ex.StackTrace}";
+                return response;
+            }
 
             return response;
         }

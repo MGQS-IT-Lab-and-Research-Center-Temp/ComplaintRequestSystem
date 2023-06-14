@@ -19,59 +19,59 @@ namespace ComplaintRequestSystem.Service.Implementations
             _unitOfWork = unitOfWork;
         }
 
-        public BaseResponseModel Register(SignUpViewModel request, string roleName)
-        {
-            var response = new BaseResponseModel();
-            string saltString = HashingHelper.GenerateSalt();
-            string hashedPassword = HashingHelper.HashPassword(request.Password, saltString);
-            var createdBy = _httpContextAccessor.HttpContext.User.Identity.Name;
-            var userExist = _unitOfWork.Users.Exists(x => x.UserName == request.UserName || x.Email == request.Email);
+		public BaseResponseModel Register(SignUpViewModel request, string roleName)
+		{
+			var response = new BaseResponseModel();
+			string saltString = HashingHelper.GenerateSalt();
+			string hashedPassword = HashingHelper.HashPassword(request.Password, saltString);
+			var createdBy = _httpContextAccessor.HttpContext.User.Identity.Name;
+			var userExist = _unitOfWork.Users.Exists(x => x.UserName == request.UserName || x.Email == request.Email);
 
-            if (userExist)
-            {
-                response.Message = $"User with {request.UserName} or {request.Email} already exist";
-                return response;
-            }
+			if (userExist)
+			{
+				response.Message = $"User with {request.UserName} or {request.Email} already exist";
+				return response;
+			}
 
-            roleName ??= "AppUser";
+			roleName ??= "AppUser";
 
-            var role = _unitOfWork.Roles.Get(x => x.RoleName == roleName);
+			var role = _unitOfWork.Roles.Get(x => x.RoleName == roleName);
 
-            if (role is null)
-            {
-                response.Message = $"Role does not exist";
-                return response;
-            }
+			if (role is null)
+			{
+				response.Message = $"Role does not exist";
+				return response;
+			}
 
-            var user = new User
-            {
-                UserName = request.UserName,
-                Email = request.Email,
-                HashSalt = saltString,
-                PasswordHash = hashedPassword,
-                RoleId = role.Id,
-                CreatedBy = createdBy,
-            };
+			var user = new User
+			{
+				UserName = request.UserName,
+				Email = request.Email,
+				HashSalt = saltString,
+				PasswordHash = hashedPassword,
+				RoleId = role.Id,
+				CreatedBy = createdBy,
+			};
 
-            try
-            {
-                _unitOfWork.Users.Create(user);
-                _unitOfWork.SaveChanges();
-                response.Message = $"You have succesfully signed up on ComplaintRequestSystem";
-                response.Status = true;
+			try
+			{
+				_unitOfWork.Users.Create(user);
+				_unitOfWork.SaveChanges();
+				response.Message = $"You have succesfully signed up on ComplaintRequestSysteem";
+				response.Status = true;
 
-                return response;
-            }
-            catch (Exception ex)
-            {
-                return new BaseResponseModel
-                {
-                    Message = $"Unable to signup, an error occurred {ex.Message}"
-                };
-            }
-        }
+				return response;
+			}
+			catch (Exception ex)
+			{
+				return new BaseResponseModel
+				{
+					Message = $"Unable to signup, an error occurred {ex.Message}"
+				};
+			}
+		}
 
-        public UserResponseModel GetUser(string userId)
+		public UserResponseModel GetUser(string userId)
         {
             var response = new UserResponseModel();
             var user = _unitOfWork.Users.GetUser(x => x.Id == userId);

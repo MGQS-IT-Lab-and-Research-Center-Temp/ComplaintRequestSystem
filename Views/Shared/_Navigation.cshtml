@@ -1,0 +1,101 @@
+﻿<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+
+    <div class="container-fluid">
+
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">ComplaintRequestSystem</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+
+                @if (User != null && User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Complaint" asp-action="Index">Manage Complaint</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Request" asp-action="Index">Manage Request</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Department" asp-action="Index">Manage Department</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Complaint" asp-action="Create">
+                                <i class="fas fa-user"></i>
+                                Make a Complaint
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Complaint" asp-action="Index">
+                                <i class="fas fa-user"></i>
+                                My Complaints
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Request" asp-action="Create">
+                                <i class="fas fa-user"></i>
+                                Make a Request
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Request" asp-action="Index">
+                                <i class="fas fa-user"></i>
+                                My Requests
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+
+            <ul class="navbar-nav justify-content-end">
+                @if (User != null && User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-success" href="#">@User.Identity.Name</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-success" asp-controller="Home" asp-action="Logout">
+                            <i class="fas fa-power-off"></i>
+                            Logout
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-success" asp-controller="Home" asp-action="Login">
+                            <i class="fas fa-user"></i>
+                            Login
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-success" asp-controller="Home" asp-action="SignUp">
+                            <i class="fas fa-user"></i>
+                            SignUp
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>

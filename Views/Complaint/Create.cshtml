@@ -1,0 +1,43 @@
+﻿@model ComplaintRequestSystem.Models.Complaint.CreateComplaintViewModel
+
+@{
+    ViewData["Title"] = "Create A Complaint";
+}
+
+@section Styles {
+    @{
+        await Html.RenderPartialAsync("_Select2CssPartial");
+    }
+}
+
+<div class="body">
+
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Create">
+                <div class="col-md-12 mb-2">
+                    <label class="form-label">Departments:</label>
+                    <select asp-for="DepartmentIds" class="form-control" asp-items="@ViewBag.Departments" data-placeholder="Select Department" multiple>
+                    </select>
+                    <span asp-validation-for="DepartmentIds" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-12 mb-2">
+                    <label class="form-label">Complaint:</label>
+                    <textarea class="form-control" placeholder="Enter your complaint" asp-for="ComplaintText"></textarea>
+                    <span asp-validation-for="ComplaintText" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary">Create Complaint</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_Select2JsPartial");
+    }
+}

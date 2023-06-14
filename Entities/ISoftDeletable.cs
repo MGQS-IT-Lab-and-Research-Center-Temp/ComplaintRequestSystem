@@ -2,6 +2,6 @@
 {
     public class ISoftDeletable
     {
-        public bool isDeleted { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

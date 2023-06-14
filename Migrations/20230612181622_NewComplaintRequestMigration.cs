@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ComplaintRequestSystem.Migrations
 {
-    public partial class IntialCreate : Migration
+    public partial class NewComplaintRequestMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,21 +13,21 @@ namespace ComplaintRequestSystem.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Department",
+                name: "Departments",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false),
-                    CreatedBy = table.Column<string>(type: "longtext", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "longtext", nullable: false),
+                    Description = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Department", x => x.Id);
+                    table.PrimaryKey("PK_Departments", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -38,10 +38,10 @@ namespace ComplaintRequestSystem.Migrations
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     RoleName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false),
-                    CreatedBy = table.Column<string>(type: "longtext", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "longtext", nullable: false),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
@@ -60,10 +60,10 @@ namespace ComplaintRequestSystem.Migrations
                     PasswordHash = table.Column<string>(type: "longtext", nullable: false),
                     Email = table.Column<string>(type: "longtext", nullable: false),
                     RoleId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    CreatedBy = table.Column<string>(type: "longtext", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "longtext", nullable: false),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
@@ -86,20 +86,22 @@ namespace ComplaintRequestSystem.Migrations
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false),
                     DepartmentId = table.Column<string>(type: "varchar(255)", nullable: true),
                     IsClosed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "longtext", nullable: true),
+                    status = table.Column<int>(type: "int", nullable: false),
                     ComplaintText = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false),
-                    CreatedBy = table.Column<string>(type: "longtext", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "longtext", nullable: false),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Complaints", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Complaints_Department_DepartmentId",
+                        name: "FK_Complaints_Departments_DepartmentId",
                         column: x => x.DepartmentId,
-                        principalTable: "Department",
+                        principalTable: "Departments",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Complaints_Users_UserId",
@@ -118,20 +120,22 @@ namespace ComplaintRequestSystem.Migrations
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false),
                     DepartmentId = table.Column<string>(type: "varchar(255)", nullable: false),
                     IsClosed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "longtext", nullable: true),
+                    status = table.Column<int>(type: "int", nullable: false),
                     RequestText = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false),
-                    CreatedBy = table.Column<string>(type: "longtext", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "longtext", nullable: false),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Requests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Requests_Department_DepartmentId",
+                        name: "FK_Requests_Departments_DepartmentId",
                         column: x => x.DepartmentId,
-                        principalTable: "Department",
+                        principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -147,18 +151,17 @@ namespace ComplaintRequestSystem.Migrations
                 name: "DepartmentComplaints",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     DepartmentId = table.Column<string>(type: "varchar(255)", nullable: false),
                     ComplaintId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    CreatedBy = table.Column<string>(type: "longtext", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "longtext", nullable: false),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DepartmentComplaints", x => x.Id);
+                    table.PrimaryKey("PK_DepartmentComplaints", x => new { x.DepartmentId, x.ComplaintId });
                     table.ForeignKey(
                         name: "FK_DepartmentComplaints_Complaints_ComplaintId",
                         column: x => x.ComplaintId,
@@ -166,9 +169,9 @@ namespace ComplaintRequestSystem.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DepartmentComplaints_Department_DepartmentId",
+                        name: "FK_DepartmentComplaints_Departments_DepartmentId",
                         column: x => x.DepartmentId,
-                        principalTable: "Department",
+                        principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -178,22 +181,21 @@ namespace ComplaintRequestSystem.Migrations
                 name: "DepartmentRequests",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     DepartmentId = table.Column<string>(type: "varchar(255)", nullable: false),
                     RequestId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    CreatedBy = table.Column<string>(type: "longtext", nullable: false),
-                    ModifiedBy = table.Column<string>(type: "longtext", nullable: false),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DepartmentRequests", x => x.Id);
+                    table.PrimaryKey("PK_DepartmentRequests", x => new { x.DepartmentId, x.RequestId });
                     table.ForeignKey(
-                        name: "FK_DepartmentRequests_Department_DepartmentId",
+                        name: "FK_DepartmentRequests_Departments_DepartmentId",
                         column: x => x.DepartmentId,
-                        principalTable: "Department",
+                        principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -216,30 +218,20 @@ namespace ComplaintRequestSystem.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Department_Name",
-                table: "Department",
-                column: "Name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_DepartmentComplaints_ComplaintId",
                 table: "DepartmentComplaints",
                 column: "ComplaintId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DepartmentComplaints_DepartmentId",
-                table: "DepartmentComplaints",
-                column: "DepartmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DepartmentRequests_DepartmentId",
-                table: "DepartmentRequests",
-                column: "DepartmentId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_DepartmentRequests_RequestId",
                 table: "DepartmentRequests",
                 column: "RequestId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Departments_Name",
+                table: "Departments",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Requests_DepartmentId",
@@ -278,7 +270,7 @@ namespace ComplaintRequestSystem.Migrations
                 name: "Requests");
 
             migrationBuilder.DropTable(
-                name: "Department");
+                name: "Departments");
 
             migrationBuilder.DropTable(
                 name: "Users");

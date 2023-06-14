@@ -10,5 +10,7 @@ namespace ComplaintRequestSystem.Service.Interfaces
         BaseResponseModel UpdateComplaint(string complaintId, UpdateComplaintViewModel request);
         ComplaintResponseModel GetComplaint(string complaintId);
         ComplaintsResponseModel GetAllComplaint();
+        ComplaintsResponseModel GetComplaintsByDepartmentId(string departmentId);
+        ComplaintsResponseModel DisplayComplaint();
     }
 }

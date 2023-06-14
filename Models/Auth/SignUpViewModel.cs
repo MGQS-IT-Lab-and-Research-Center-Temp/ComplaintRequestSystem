@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace ComplaintRequestSystem.Models.Auth
 {
-    public class SignUpViewModel
+	public class SignUpViewModel
     {
         [Required(ErrorMessage = "Username is required.")]
-        [Range(3, 10, ErrorMessage = "The minimum length is 3 and the maximum length is 10!")]
-        public string UserName { get; set; }
+		[MinLength(3, ErrorMessage = "The minimum length is 3.")]
+		[MaxLength(10, ErrorMessage = "The maximum length is 10.")]
+		public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

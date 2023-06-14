@@ -8,7 +8,7 @@ namespace ComplaintRequestSystem.Context.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Department> builder)
         {
-            builder.ToTable("Department");
+            builder.ToTable("Departments");
 
             builder.HasKey(c => c.Id);
 

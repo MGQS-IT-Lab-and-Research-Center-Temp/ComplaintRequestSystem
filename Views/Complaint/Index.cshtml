@@ -1,0 +1,47 @@
+﻿@model List<ComplaintRequestSystem.Models.Complaint.ComplaintViewModel>
+
+@{
+    ViewData["Title"] = "Complaint List";
+    int count = 1;
+}
+
+@await Html.PartialAsync("_ListAlert", Model)
+
+@if (Model is not null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                @if (User.IsInRole("Admin"))
+                {
+                    <th scope="col">Username</th>
+                }
+                <th scope="col">Complaint</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td scope="row">@count</td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <td scope="row">@item.UserName</td>
+                    }
+                    <td scope="row">@item.ComplaintText</td>
+                    <td scope="row">
+                        <div class="btn-group">
+                            <a asp-controller="Complaint" asp-action="GetComplaintDetail" asp-route-id="@item.Id" class="btn btn-info btn-sm text-white">View Complaint</a>
+
+                        </div>
+                    </td>
+                </tr>
+                count++;
+            }
+        </tbody>
+    </table>
+}
+

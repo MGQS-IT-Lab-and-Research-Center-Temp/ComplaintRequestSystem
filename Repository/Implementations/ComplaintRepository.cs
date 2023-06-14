@@ -23,10 +23,11 @@ namespace ComplaintRequestSystem.Repository.Implementations
 
         public List<Complaint> GetComplaints()
         {
-            var complaints = _context.Complaints
+			var complaints = _context.Complaints
                 .Include(uq => uq.User)
                 .Include(d => d.Department)
                 .ToList();
+
             return complaints;
         }
 
@@ -37,16 +38,19 @@ namespace ComplaintRequestSystem.Repository.Implementations
                 .Include(u => u.User)
                 .Include(d => d.Department)
                 .ToList();
+
             return complaints;
         }
 
         public List<DepartmentComplaint> GetComplaintByDepartmentId(string departmentId)
         {
             var complaints = _context.DepartmentComplaints
+                .Include(d => d.Department)
                 .Include(c => c.Complaint)
                 .ThenInclude(c => c.User)
                 .Where(c => c.DepartmentId.Equals(departmentId))
-            .ToList();
+                .ToList();
+
             return complaints;
         }
 

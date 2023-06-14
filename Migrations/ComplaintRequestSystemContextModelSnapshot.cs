@@ -30,7 +30,6 @@ namespace ComplaintRequestSystem.Migrations
                         .HasColumnType("varchar(150)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
@@ -39,22 +38,27 @@ namespace ComplaintRequestSystem.Migrations
                     b.Property<string>("DepartmentId")
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("longtext");
+
                     b.Property<bool>("IsClosed")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
+
+                    b.Property<int>("status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -71,25 +75,22 @@ namespace ComplaintRequestSystem.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -102,85 +103,67 @@ namespace ComplaintRequestSystem.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Department", (string)null);
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("ComplaintRequestSystem.Entities.DepartmentComplaint", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("DepartmentId")
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("ComplaintId")
-                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("DepartmentId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("Id");
+                    b.HasKey("DepartmentId", "ComplaintId");
 
                     b.HasIndex("ComplaintId");
 
-                    b.HasIndex("DepartmentId");
-
-                    b.ToTable("DepartmentComplaints");
+                    b.ToTable("DepartmentComplaints", (string)null);
                 });
 
             modelBuilder.Entity("ComplaintRequestSystem.Entities.DepartmentRequest", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("DepartmentId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("RequestId")
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("DepartmentId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("RequestId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
+                    b.HasKey("DepartmentId", "RequestId");
 
                     b.HasIndex("RequestId");
 
-                    b.ToTable("DepartmentRequests");
+                    b.ToTable("DepartmentRequests", (string)null);
                 });
 
             modelBuilder.Entity("ComplaintRequestSystem.Entities.Request", b =>
@@ -189,7 +172,6 @@ namespace ComplaintRequestSystem.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
@@ -199,17 +181,19 @@ namespace ComplaintRequestSystem.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("longtext");
+
                     b.Property<bool>("IsClosed")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("RequestText")
@@ -220,6 +204,9 @@ namespace ComplaintRequestSystem.Migrations
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
+
+                    b.Property<int>("status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -236,7 +223,6 @@ namespace ComplaintRequestSystem.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
@@ -250,11 +236,10 @@ namespace ComplaintRequestSystem.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("RoleName")
@@ -276,7 +261,6 @@ namespace ComplaintRequestSystem.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("DateCreated")
@@ -293,11 +277,10 @@ namespace ComplaintRequestSystem.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("LastModified")
+                    b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("PasswordHash")
@@ -346,7 +329,7 @@ namespace ComplaintRequestSystem.Migrations
                         .IsRequired();
 
                     b.HasOne("ComplaintRequestSystem.Entities.Department", "Department")
-                        .WithMany()
+                        .WithMany("DepartmentComplaints")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -359,7 +342,7 @@ namespace ComplaintRequestSystem.Migrations
             modelBuilder.Entity("ComplaintRequestSystem.Entities.DepartmentRequest", b =>
                 {
                     b.HasOne("ComplaintRequestSystem.Entities.Department", "Department")
-                        .WithMany()
+                        .WithMany("DepartmentRequest")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -408,6 +391,13 @@ namespace ComplaintRequestSystem.Migrations
             modelBuilder.Entity("ComplaintRequestSystem.Entities.Complaint", b =>
                 {
                     b.Navigation("DepartmentComplaint");
+                });
+
+            modelBuilder.Entity("ComplaintRequestSystem.Entities.Department", b =>
+                {
+                    b.Navigation("DepartmentComplaints");
+
+                    b.Navigation("DepartmentRequest");
                 });
 
             modelBuilder.Entity("ComplaintRequestSystem.Entities.Request", b =>

@@ -1,5 +1,6 @@
 ﻿using ComplaintRequestSystem.Models.Request;
 using ComplaintRequestSystem.Models;
+using ComplaintRequestSystem.Models.Complaint;
 
 namespace ComplaintRequestSystem.Service.Interfaces
 {
@@ -9,6 +10,7 @@ namespace ComplaintRequestSystem.Service.Interfaces
         BaseResponseModel DeleteRequest(string requestId);
         BaseResponseModel UpdateRequest(string requestId, UpdateRequestViewModel request);
         RequestResponseModel GetRequest(string requestId);
-        RequestsResponseModel GetAllRequest();
+		RequestsResponseModel GetRequestsByDepartmentId(string departmentId);
+		RequestsResponseModel GetAllRequest();
     }
 }

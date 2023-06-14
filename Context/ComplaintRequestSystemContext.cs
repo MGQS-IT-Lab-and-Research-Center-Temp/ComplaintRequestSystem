@@ -10,7 +10,11 @@ namespace ComplaintRequestSystem.Context
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+		public ComplaintRequestSystemContext()
+		{
+		}
+
+		protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }

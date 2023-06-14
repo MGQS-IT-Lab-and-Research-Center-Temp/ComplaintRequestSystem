@@ -41,7 +41,7 @@ namespace ComplaintRequestSystem.Repository.Implementations
             return requests;
         }
 
-        public List<DepartmentRequest> GetRequestByDepartmentId(string departmentId)
+        public List<DepartmentRequest> GetRequestsByDepartmentId(string departmentId)
         {
             var requests = _context.DepartmentRequests
                 .Include(d => d.Department)

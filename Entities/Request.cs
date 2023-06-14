@@ -8,6 +8,7 @@ namespace ComplaintRequestSystem.Entities
         public User User { get; set; }
         public Department Department { get; set; }
         public bool IsClosed { get; set; }
+        public string? ImageUrl { get; set; }
         public RequestStatus status { get; set; }
         public ICollection<DepartmentRequest> DepartmentRequest { get; set; } = new HashSet<DepartmentRequest>();
         public string RequestText { get; set; }
