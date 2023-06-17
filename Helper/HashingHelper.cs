@@ -23,15 +23,17 @@ namespace ComplaintRequestSystem.Helper
             byte[] saltByte = Convert.FromBase64String(salt);
 
             string hashed = Convert.ToBase64String
-                (KeyDerivation.Pbkdf2(
+				(KeyDerivation.Pbkdf2(
                 password: password,
                 salt: saltByte,
                 prf: KeyDerivationPrf.HMACSHA1,
                 iterationCount: 10000,
                 numBytesRequested: 256 / 8));
 
-            return hashed;
-        }
+            
+			return hashed;
+
+		}
 
         public static byte[] GenerateSalt2()
         {

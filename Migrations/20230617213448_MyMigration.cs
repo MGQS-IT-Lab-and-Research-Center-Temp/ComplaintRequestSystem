@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ComplaintRequestSystem.Migrations
 {
-    public partial class NewComplaintRequestMigration : Migration
+    public partial class MyMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -118,7 +118,6 @@ namespace ComplaintRequestSystem.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    DepartmentId = table.Column<string>(type: "varchar(255)", nullable: false),
                     IsClosed = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     ImageUrl = table.Column<string>(type: "longtext", nullable: true),
                     status = table.Column<int>(type: "int", nullable: false),
@@ -132,12 +131,6 @@ namespace ComplaintRequestSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Requests", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Requests_Departments_DepartmentId",
-                        column: x => x.DepartmentId,
-                        principalTable: "Departments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Requests_Users_UserId",
                         column: x => x.UserId,
@@ -232,11 +225,6 @@ namespace ComplaintRequestSystem.Migrations
                 table: "Departments",
                 column: "Name",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Requests_DepartmentId",
-                table: "Requests",
-                column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Requests_UserId",

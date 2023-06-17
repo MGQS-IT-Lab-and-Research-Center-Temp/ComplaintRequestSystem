@@ -24,7 +24,7 @@
 
                 <div class="col-md-12 mb-2">
                     <label class="form-label">Complaint:</label>
-                    <textarea class="form-control" placeholder="Enter your complaint" asp-for="ComplaintText"></textarea>
+                    <textarea class="form-control" placeholder="Enter your complaint" asp-for="ComplaintText" minlength="20" maxlength="150"></textarea>
                     <span asp-validation-for="ComplaintText" class="text-danger"></span>
                 </div>
 
@@ -35,6 +35,11 @@
         </div>
     </div>
 </div>
+
+
+
+
+
 
 @section Scripts {
     @{

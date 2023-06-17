@@ -22,8 +22,13 @@ namespace ComplaintRequestSystem.Service.Implementations
 		public BaseResponseModel Register(SignUpViewModel request, string roleName)
 		{
 			var response = new BaseResponseModel();
-			string saltString = HashingHelper.GenerateSalt();
-			string hashedPassword = HashingHelper.HashPassword(request.Password, saltString);
+            string saltString = HashingHelper.GenerateSalt();
+            if (request.Password is null)
+            {
+                response.Message = "Input the required fields";
+                return response;
+            }
+            string hashedPassword = HashingHelper.HashPassword(request.Password, saltString);
 			var createdBy = _httpContextAccessor.HttpContext.User.Identity.Name;
 			var userExist = _unitOfWork.Users.Exists(x => x.UserName == request.UserName || x.Email == request.Email);
 
@@ -52,6 +57,8 @@ namespace ComplaintRequestSystem.Service.Implementations
 				RoleId = role.Id,
 				CreatedBy = createdBy,
 			};
+
+           
 
 			try
 			{

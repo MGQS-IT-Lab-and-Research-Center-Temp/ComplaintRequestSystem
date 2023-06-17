@@ -6,7 +6,6 @@ namespace ComplaintRequestSystem.Entities
     {
         public string UserId { get; set; }
         public User User { get; set; }
-        public Department Department { get; set; }
         public bool IsClosed { get; set; }
         public string? ImageUrl { get; set; }
         public RequestStatus status { get; set; }

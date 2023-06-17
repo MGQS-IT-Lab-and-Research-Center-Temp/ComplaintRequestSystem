@@ -25,7 +25,6 @@ namespace ComplaintRequestSystem.Repository.Implementations
         {
             var requests = _context.Requests
                 .Include(uq => uq.User)
-                .Include(d => d.Department)
                 .ToList();
 
             return requests;
@@ -36,7 +35,6 @@ namespace ComplaintRequestSystem.Repository.Implementations
             var requests = _context.Requests
                 .Where(expression)
                 .Include(u => u.User)
-                .Include(d => d.Department)
                 .ToList();
             return requests;
         }

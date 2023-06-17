@@ -12,7 +12,8 @@ namespace ComplaintRequestSystem.Models.Request
         [MinLength(20, ErrorMessage = "Minimum of 20 character required")]
         [MaxLength(150, ErrorMessage = "Maximum of 150 character required")]
         public string RequestText { get; set; }
-        public string ImageUrl { get; set; }
+
+        public string? ImageUrl { get; set; }
     }
 
 }

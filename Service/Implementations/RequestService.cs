@@ -32,10 +32,17 @@ namespace ComplaintRequestSystem.Service.Implementations
             {
                 UserId = user.Id,
                 RequestText = request.RequestText,
+                ImageUrl = request.ImageUrl,
                 CreatedBy = createdBy,
             };
 
-            var departments = _unitOfWork.Requests.GetAllByIds(request.DepartmentIds);
+            if (request.DepartmentIds is null)
+            {
+                response.Message = "Select one or more department(s).";
+                return response;
+            }
+
+            var departments = _unitOfWork.Departments.GetAllByIds(request.DepartmentIds);
 
             var departmentRequests = new HashSet<DepartmentRequest>();
 
@@ -44,7 +51,8 @@ namespace ComplaintRequestSystem.Service.Implementations
                 var departmentRequest = new DepartmentRequest
                 {
                     DepartmentId = department.Id,
-                    Department = department.Department,
+                    RequestId = newRequest.Id,
+                    Department = department,
                     Request = newRequest,
                     CreatedBy = createdBy
                 };
@@ -155,7 +163,7 @@ namespace ComplaintRequestSystem.Service.Implementations
 
                 if (requests.Count == 0)
                 {
-                    response.Message = "No complaint found!";
+                    response.Message = "No request found!";
                     return response;
                 }
 

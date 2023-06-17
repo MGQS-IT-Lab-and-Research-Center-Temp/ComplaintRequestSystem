@@ -9,7 +9,7 @@ namespace ComplaintRequestSystem.Models.Auth
 		[MaxLength(10, ErrorMessage = "The maximum length is 10.")]
 		public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Password is required.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

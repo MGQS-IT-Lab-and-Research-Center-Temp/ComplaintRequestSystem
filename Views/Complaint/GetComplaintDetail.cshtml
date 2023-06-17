@@ -18,9 +18,21 @@
                    Complaint Text: @Model.ComplaintText
                 </h5> 
                 <p>
-                   Complaint Status: @Model.Status
+                   Complaint Status: @Model.Status.ToString();
                 </p>
-                
+
+                @if (User.IsInRole("AppUser"))
+                {
+                    <a asp-controller="Complaint" asp-action="Update" asp-route-id="@Model.Id" class="btn btn-primary btn-sm">
+                        <i class="fas fa-edit"></i>
+                    </a>
+
+                    <form asp-controller="Complaint" asp-action="DeleteComplaint" asp-route-id="@Model.Id" method="post" class="del-btn">
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                }
                  
                 
 

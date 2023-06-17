@@ -66,7 +66,7 @@ namespace ComplaintRequestSystem.Controllers
 			return RedirectToAction("Index", "Request");
 		}
 
-		public IActionResult GetRequestByDepartment(string id)
+		public IActionResult GetRequestsByDepartment(string id)
 		{
 			var response = _requestService.GetRequestsByDepartmentId(id);
 			ViewData["Message"] = response.Message;

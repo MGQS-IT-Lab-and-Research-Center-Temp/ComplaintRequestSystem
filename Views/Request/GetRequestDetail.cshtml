@@ -15,11 +15,23 @@
             <div class="card-header">
 
                 <h5>
-                    Complaint Text: @Model.RequestText
+                    request Text: @Model.RequestText
                 </h5>
                 <p>
-                    Complaint Status: @Model.RequestStatus
+                    Request Status: @Model.RequestStatus.ToString();
                 </p>
+                @if (User.IsInRole("AppUser"))
+                {
+                    <a asp-controller="Request" asp-action="Update" asp-route-id="@Model.Id" class="btn btn-primary btn-sm">
+                        <i class="fas fa-edit"></i>
+                    </a>
+
+                    <form asp-controller="Request" asp-action="DeleteRequest" asp-route-id="@Model.Id" method="post" class="del-btn">
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                }
 
 
 
@@ -27,5 +39,7 @@
             </div>
         </div>
     }
+
+</div>
 
 

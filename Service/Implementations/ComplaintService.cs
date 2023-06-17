@@ -35,7 +35,11 @@ namespace ComplaintRequestSystem.Service.Implementations
                 CreatedBy = createdBy,
             };
 
-           
+           if(request.DepartmentIds is null)
+           {
+                response.Message = "Select one or more department(s).";
+                return response;
+           }
 
             var departments = _unitOfWork.Departments.GetAllByIds(request.DepartmentIds);
 

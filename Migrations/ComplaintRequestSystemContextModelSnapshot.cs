@@ -177,10 +177,6 @@ namespace ComplaintRequestSystem.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("DepartmentId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
                     b.Property<string>("ImageUrl")
                         .HasColumnType("longtext");
 
@@ -209,8 +205,6 @@ namespace ComplaintRequestSystem.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("UserId");
 
@@ -360,19 +354,11 @@ namespace ComplaintRequestSystem.Migrations
 
             modelBuilder.Entity("ComplaintRequestSystem.Entities.Request", b =>
                 {
-                    b.HasOne("ComplaintRequestSystem.Entities.Department", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ComplaintRequestSystem.Entities.User", "User")
                         .WithMany("Requests")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Department");
 
                     b.Navigation("User");
                 });
