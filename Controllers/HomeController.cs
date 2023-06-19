@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using System.Net;
 using System.Security.Claims;
-using static ComplaintRequestSystem.Models.MvcEmail;
+
 
 
 
