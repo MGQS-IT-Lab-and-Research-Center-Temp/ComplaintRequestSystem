@@ -4,6 +4,7 @@
     ViewData["Title"] = "Complaint Detail";
 }
 
+
 <div class="body">
 
     @if (Model is not null)
@@ -17,9 +18,9 @@
                 <h5>
                    Complaint Text: @Model.ComplaintText
                 </h5> 
-                <p>
-                   Complaint Status: @Model.Status.ToString();
-                </p>
+
+
+              
 
                 @if (User.IsInRole("AppUser"))
                 {

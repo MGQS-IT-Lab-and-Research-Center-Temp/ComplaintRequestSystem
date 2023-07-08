@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ComplaintRequestSystem.Migrations
 {
-    public partial class MyMigration : Migration
+    public partial class MyNewMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -10,9 +10,10 @@
     {
         <div class="card">
 
-            <img src="@Model.ImageUrl" class="card-img-top" />
 
             <div class="card-header">
+
+          
 
                 <h5>
                     Request Text: @Model.RequestText
@@ -20,6 +21,11 @@
                 <p>
                     Request Status: @Model.RequestStatus.ToString();
                 </p>
+
+                <div>
+                    Request Image: <img class="" src="@Model.ImageUrl" />
+                </div>
+
                 @if (User.IsInRole("AppUser"))
                 {
                     <a asp-controller="Request" asp-action="Update" asp-route-id="@Model.Id" class="btn btn-primary btn-sm">

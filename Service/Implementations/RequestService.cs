@@ -139,6 +139,7 @@ namespace ComplaintRequestSystem.Service.Implementations
                         Id = request.Id,
                         RequestText = request.RequestText,
                         UserName = request.User.UserName,
+                        ImageUrl = request.ImageUrl
                     }).ToList();
 
                 response.Status = true;
@@ -221,6 +222,7 @@ namespace ComplaintRequestSystem.Service.Implementations
                 RequestText = request.RequestText,
                 UserId = request.UserId,
                 UserName = request.User.UserName,
+                ImageUrl = request.ImageUrl
             };
 
             return response;

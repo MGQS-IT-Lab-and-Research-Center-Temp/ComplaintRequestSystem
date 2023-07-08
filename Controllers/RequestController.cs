@@ -1,13 +1,11 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
-using ComplaintRequestSystem.Models.Complaint;
 using ComplaintRequestSystem.Models.Request;
-using ComplaintRequestSystem.Service.Implementations;
 using ComplaintRequestSystem.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ComplaintRequestSystem.Controllers
 {
-	public class RequestController : Controller
+    public class RequestController : Controller
 	{
 		private readonly IComplaintService _complaintService;
 		private readonly IRequestService _requestService;

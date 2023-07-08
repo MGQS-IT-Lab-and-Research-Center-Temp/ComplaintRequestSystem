@@ -28,6 +28,12 @@
                     <span asp-validation-for="RequestText" class="text-danger"></span>
                 </div>
 
+                <div class="col-md-12 mb-3">
+                    <label asp-for="ImageUrl" class="control-label"></label>
+                    <input asp-for="ImageUrl" type="file" class="form-control" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-primary">Create Request</button>
                 </div>
