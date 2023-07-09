@@ -30,7 +30,11 @@
                     <td scope="row">@item.Status</td>
                     <td scope="row">
                         <a asp-controller="Complaint" asp-action="GetComplaintDetail" asp-route-id="@item.Id" class="btn btn-info text-white">View Complaint</a>
+                       
                     </td>
+                    &nbsp;
+                    <a asp-controller="Department" asp-action="Index" class="btn btn-outline-secondary">Go back to list</a>
+                   
                 </tr>
                 count++;
             }

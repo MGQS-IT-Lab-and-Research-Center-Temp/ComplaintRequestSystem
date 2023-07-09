@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComplaintRequestSystem.Migrations
 {
     [DbContext(typeof(ComplaintRequestSystemContext))]
-    [Migration("20230623104149_MyNewMigration")]
-    partial class MyNewMigration
+    [Migration("20230709172413_myMigration")]
+    partial class myMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

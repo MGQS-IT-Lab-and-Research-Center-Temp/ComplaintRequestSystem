@@ -5,11 +5,12 @@
 <style>
     body {
         background-color: #f8f9fa;
-        font-family: Arial, sans-serif;
+        font-family: Arial, sans-serif; 
+        max-width:contain
     }
 
     .container {
-        max-width: 600px;
+        max-width: 800px;
         margin: 0 auto;
         padding: 30px;
         background-color: #fff;
@@ -22,6 +23,7 @@
         font-size: 28px;
         font-weight: bold;
         margin-bottom: 20px;
+        font-family: 'Global User Interface'
     }
 
     .subtitle {
@@ -41,21 +43,56 @@
         transition: background-color 0.3s;
     }
 
+    h2 {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        font-family: 'Global User Interface'
+    }
+
         .button:hover {
             background-color: aquamarine;
         }
 </style>
 
-<div class="container text-center">
-    <h1 class="title">Welcome to Our Complaint Request System</h1>
-    <p class="subtitle">Thank you for visiting our website. We provide top-notch web development services.</p>
-    <div class="title">What would you like to do?</div>
-    <div>
-        <h2>Make a complaint</h2>
-        <a class="button" href="@Url.Action("Create", "Complaint")">Click here</a>
+@if (User.IsInRole("Admin"))
+{
+    <div class=" container text-center">
+        <div class="title">Welcome admin</div>
+        <p class="subtitle">What would you like to do?</p>
+        <div>
+            <h2>View complaints</h2>
+            <a class="button" href="@Url.Action("Index", "Complaint")">Click here</a>
+        </div>
+        <br/>
+        <div>
+            <h2>View requests</h2>
+            <a class="button" href="@Url.Action("Index", "Request")">Click here</a>
+        </div>
     </div>
-    <div>
-        <h2>Make a request</h2>
-        <a class="button" href="@Url.Action("Create", "Request")">Click here</a>
+}
+
+@if(User.IsInRole("AppUser"))
+{
+
+    <div class="container text-center">
+        <h1 class="title">Welcome to Our Complaint Request System</h1>
+        <p class="subtitle">Thank you for visiting our website. We provide top-notch web development services.</p>
+        <div class="title">What would you like to do?</div>
+        <div>
+            <h2 class="container-fluid">Make a complaint</h2>
+            <a class="button" href="@Url.Action("Create", "Complaint")">Click here</a>
+        </div>
+        <br/>
+        <div>
+            <h2 class="container-fluid">Make a request</h2>
+            <a class="button" href="@Url.Action("Create", "Request")">Click here</a>
+        </div>
+
     </div>
-</div>
+}
+
+
+
+
+

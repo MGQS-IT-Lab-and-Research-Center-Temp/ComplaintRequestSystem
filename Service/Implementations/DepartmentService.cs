@@ -181,14 +181,23 @@ namespace ComplaintRequestSystem.Service.Implementations
                 return response;
             }
 
+            if (string.IsNullOrWhiteSpace(request.Name))
+            {
+                response.Message = "Department Name is required";
+                return response;
+            }
+
             var department = _unitOfWork.Departments.Get(departmentId);
+            department.Name = request.Name; 
             department.Description = request.Description;
             department.ModifiedBy = modifiedBy;
-
-            try
-            {
+            
+            
+            try 
+            { 
                 _unitOfWork.Departments.Update(department);
                 _unitOfWork.SaveChanges();
+                response.Status = true;
                 response.Message = "Department updated successfully.";
 
                 return response;
