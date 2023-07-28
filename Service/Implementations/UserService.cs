@@ -19,7 +19,7 @@ namespace ComplaintRequestSystem.Service.Implementations
             _unitOfWork = unitOfWork;
         }
 
-		public BaseResponseModel Register(SignUpViewModel request, string roleName)
+		public async Task<BaseResponseModel> Register(SignUpViewModel request, string roleName)
 		{
 			var response = new BaseResponseModel();
             string saltString = HashingHelper.GenerateSalt();
@@ -30,7 +30,7 @@ namespace ComplaintRequestSystem.Service.Implementations
             }
             string hashedPassword = HashingHelper.HashPassword(request.Password, saltString);
 			var createdBy = _httpContextAccessor.HttpContext.User.Identity.Name;
-			var userExist = _unitOfWork.Users.Exists(x => x.UserName == request.UserName || x.Email == request.Email);
+			var userExist = await _unitOfWork.Users.ExistsAsync(x => x.UserName == request.UserName || x.Email == request.Email);
 
 			if (userExist)
 			{
@@ -40,7 +40,7 @@ namespace ComplaintRequestSystem.Service.Implementations
 
 			roleName ??= "AppUser";
 
-			var role = _unitOfWork.Roles.Get(x => x.RoleName == roleName);
+			var role = await _unitOfWork.Roles.GetAsync(x => x.RoleName == roleName);
 
 			if (role is null)
 			{
@@ -62,8 +62,8 @@ namespace ComplaintRequestSystem.Service.Implementations
 
 			try
 			{
-				_unitOfWork.Users.Create(user);
-				_unitOfWork.SaveChanges();
+				_unitOfWork.Users.CreateAsync(user);
+				_unitOfWork.SaveChangesAsync();
 				response.Message = $"You have succesfully signed up on ComplaintRequestSysteem";
 				response.Status = true;
 
@@ -78,10 +78,10 @@ namespace ComplaintRequestSystem.Service.Implementations
 			}
 		}
 
-		public UserResponseModel GetUser(string userId)
+		public async Task<UserResponseModel> GetUser(string userId)
         {
             var response = new UserResponseModel();
-            var user = _unitOfWork.Users.GetUser(x => x.Id == userId);
+            var user =  await _unitOfWork.Users.GetUser(x => x.Id == userId);
 
             if (user is null)
             {
@@ -102,13 +102,13 @@ namespace ComplaintRequestSystem.Service.Implementations
             return response;
         }
 
-        public UserResponseModel Login(LoginViewModel model)
+        public async Task<UserResponseModel> Login(LoginViewModel model)
         {
             var response = new UserResponseModel();
 
             try
             {
-                var user = _unitOfWork.Users.GetUser(x =>
+                var user = await _unitOfWork.Users.GetUser(x =>
                                 (x.UserName.ToLower() == model.UserName.ToLower()
                                 || x.Email.ToLower() == model.UserName.ToLower()));
 

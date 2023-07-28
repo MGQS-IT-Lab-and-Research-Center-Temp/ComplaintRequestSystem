@@ -3,6 +3,7 @@ using ComplaintRequestSystem.Models;
 using ComplaintRequestSystem.Models.Complaint;
 using ComplaintRequestSystem.Repository.Interfaces;
 using ComplaintRequestSystem.Service.Interfaces;
+using Google.Protobuf.WellKnownTypes;
 using System.Linq.Expressions;
 using System.Security.Claims;
 
@@ -20,12 +21,12 @@ namespace ComplaintRequestSystem.Service.Implementations
             _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
         }
-        public BaseResponseModel CreateComplaint(CreateComplaintViewModel request)
+        public async Task<BaseResponseModel> CreateComplaint(CreateComplaintViewModel request)
         {
             var response = new BaseResponseModel();
             var createdBy = _httpContextAccessor.HttpContext.User.Identity.Name;
             var userIdClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            var user = _unitOfWork.Users.Get(userIdClaim);
+            var user = await _unitOfWork.Users.GetAsync(userIdClaim);
 
             var complaint = new Complaint
             {
@@ -41,7 +42,7 @@ namespace ComplaintRequestSystem.Service.Implementations
                 return response;
            }
 
-            var departments = _unitOfWork.Departments.GetAllByIds(request.DepartmentIds);
+            var departments = await  _unitOfWork.Departments.GetAllByIdsAsync(request.DepartmentIds);
 
 
             var departmentComplaints = new HashSet<DepartmentComplaint>();
@@ -63,8 +64,8 @@ namespace ComplaintRequestSystem.Service.Implementations
 
             try
             {
-                _unitOfWork.Complaints.Create(complaint);
-                _unitOfWork.SaveChanges();
+               await _unitOfWork.Complaints.CreateAsync(complaint);
+               await _unitOfWork.SaveChangesAsync();
                 response.Message = "Complaint created successfully!";
                 response.Status = true;
 
@@ -77,7 +78,7 @@ namespace ComplaintRequestSystem.Service.Implementations
             }
         }
 
-        public BaseResponseModel DeleteComplaint(string complaintId)
+        public async Task<BaseResponseModel> DeleteComplaint(string complaintId)
         {
             var response = new BaseResponseModel();
 
@@ -86,22 +87,22 @@ namespace ComplaintRequestSystem.Service.Implementations
                                         && c.IsDeleted == false
                                         && c.IsClosed == false));
 
-            var complaintExist = _unitOfWork.Complaints.Exists(expression);
+            var isComplaintExist = await _unitOfWork.Complaints.ExistsAsync(expression);
 
-            if (!complaintExist)
+            if (!isComplaintExist)
             {
                 response.Message = "Complaint does not exist!";
                 return response;
             }
 
 
-            var complaint = _unitOfWork.Complaints.Get(complaintId);
+            var complaint = await _unitOfWork.Complaints.GetAsync(complaintId);
             complaint.IsDeleted = true;
 
             try
             {
-                _unitOfWork.Complaints.Update(complaint);
-                _unitOfWork.SaveChanges();
+               await _unitOfWork.Complaints.RemoveAsync(complaint);
+               await _unitOfWork.SaveChangesAsync();
                 response.Message = "Complaint deleted successfully!";
                 response.Status = true;
 
@@ -114,14 +115,15 @@ namespace ComplaintRequestSystem.Service.Implementations
             }
         }
 
-        public ComplaintsResponseModel DisplayComplaint()
+
+        public async Task<ComplaintsResponseModel> DisplayComplaint()
         {
 
 			var response = new ComplaintsResponseModel();
 
 			try
 			{
-				var complaints = _unitOfWork.Complaints.GetComplaints();
+				var complaints = await  _unitOfWork.Complaints.GetComplaints();
 
 				if (complaints.Count == 0)
 				{
@@ -152,7 +154,7 @@ namespace ComplaintRequestSystem.Service.Implementations
 			return response;
 		}
 
-        public ComplaintsResponseModel GetAllComplaint()
+        public async Task<ComplaintsResponseModel> GetAllComplaint()
         {
             var response = new ComplaintsResponseModel();
 
@@ -162,7 +164,7 @@ namespace ComplaintRequestSystem.Service.Implementations
                 var userIdClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                 Expression<Func<Complaint, bool>> expression = q => q.UserId == userIdClaim;
 
-                var complaints = IsInRole ? _unitOfWork.Complaints.GetComplaints() : _unitOfWork.Complaints.GetComplaints(expression);
+                var complaints = IsInRole ? await  _unitOfWork.Complaints.GetComplaints() : await _unitOfWork.Complaints.GetComplaints(expression);
 
                 if (complaints.Count == 0)
                 {
@@ -191,10 +193,10 @@ namespace ComplaintRequestSystem.Service.Implementations
             return response;
         }
 
-        public ComplaintResponseModel GetComplaint(string complaintId)
+        public async Task<ComplaintResponseModel> GetComplaint(string complaintId)
         {
             var response = new ComplaintResponseModel();
-            var complaintExist = _unitOfWork.Complaints.Exists(q => q.Id == complaintId && q.IsDeleted == false);
+            var complaintExist = await _unitOfWork.Complaints.ExistsAsync(q => q.Id == complaintId && q.IsDeleted == false);
             var IsInRole = _httpContextAccessor.HttpContext.User.IsInRole("Admin");
             var userIdClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var complaint = new Complaint();
@@ -205,7 +207,7 @@ namespace ComplaintRequestSystem.Service.Implementations
                 return response;
             }
 
-            complaint = IsInRole ? _unitOfWork.Complaints.GetComplaint(q => q.Id == complaintId && !q.IsDeleted) : _unitOfWork.Complaints.GetComplaint(q => q.Id == complaintId
+            complaint = IsInRole ? await  _unitOfWork.Complaints.GetComplaint(q => q.Id == complaintId && !q.IsDeleted) : await _unitOfWork.Complaints.GetComplaint(q => q.Id == complaintId
                                                  && q.UserId == userIdClaim
                                                  && !q.IsDeleted);
 
@@ -228,13 +230,13 @@ namespace ComplaintRequestSystem.Service.Implementations
             return response;
         }
 
-        public ComplaintsResponseModel GetComplaintsByDepartmentId(string departmentId)
+        public async Task<ComplaintsResponseModel> GetComplaintsByDepartmentId(string departmentId)
         {
             var response = new ComplaintsResponseModel();
 
             try
             {
-                var complaints = _unitOfWork.Complaints.GetComplaintByDepartmentId(departmentId);
+                var complaints = await _unitOfWork.Complaints.GetComplaintByDepartmentId(departmentId);
 
                 if (complaints.Count == 0)
                 {
@@ -263,13 +265,14 @@ namespace ComplaintRequestSystem.Service.Implementations
             return response;
         }
 
-        public BaseResponseModel UpdateComplaint(string complaintId, UpdateComplaintViewModel request)
+
+        public async Task<BaseResponseModel> UpdateComplaint(string complaintId, UpdateComplaintViewModel request)
         {
             var response = new BaseResponseModel();
             var modifiedBy = _httpContextAccessor.HttpContext.User.Identity.Name;
-            var complaintExist = _unitOfWork.Complaints.Exists(c => c.Id == complaintId);
+            var complaintExist = await _unitOfWork.Complaints.ExistsAsync(c => c.Id == complaintId);
             var userIdClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            var user = _unitOfWork.Users.Get(userIdClaim);
+            var user = await _unitOfWork.Users.GetAsync(userIdClaim);
 
             if (!complaintExist)
             {
@@ -277,7 +280,7 @@ namespace ComplaintRequestSystem.Service.Implementations
                 return response;
             }
 
-            var complaint = _unitOfWork.Complaints.Get(complaintId);
+            var complaint = await _unitOfWork.Complaints.GetAsync(complaintId);
 
             if (complaint.UserId != user.Id)
             {
@@ -290,8 +293,8 @@ namespace ComplaintRequestSystem.Service.Implementations
 
             try
             {
-                _unitOfWork.Complaints.Update(complaint);
-                _unitOfWork.SaveChanges();
+               await _unitOfWork.Complaints.UpdateAsync(complaint);
+               await _unitOfWork.SaveChangesAsync();
                 response.Message = "Complaint updated successfully!";
                 response.Status = true;
                 return response;

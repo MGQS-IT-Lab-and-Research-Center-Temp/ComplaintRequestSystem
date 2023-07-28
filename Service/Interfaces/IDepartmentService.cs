@@ -6,11 +6,11 @@ namespace ComplaintRequestSystem.Service.Interfaces
 {
     public interface IDepartmentService
     {
-        BaseResponseModel CreateDepartment(CreateDepartmentViewModel request);
-        BaseResponseModel DeleteDepartment(string departmentId);
-        BaseResponseModel UpdateDepartment(string departmentId, UpdateDepartmentViewModel request);
-        DepartmentResponseModel GetDepartment(string departmentId);
-        DepartmentsResponseModel GetAllDepartment();
-        IEnumerable<SelectListItem> SelectDepartment();
+        Task<BaseResponseModel> CreateDepartment(CreateDepartmentViewModel request);
+        Task<BaseResponseModel> DeleteDepartment(string departmentId);
+        Task<BaseResponseModel> UpdateDepartment(string departmentId, UpdateDepartmentViewModel request);
+        Task<DepartmentResponseModel> GetDepartment(string departmentId);
+        Task<DepartmentsResponseModel> GetAllDepartment();
+        Task<IEnumerable<SelectListItem>> SelectDepartment();
     }
 }

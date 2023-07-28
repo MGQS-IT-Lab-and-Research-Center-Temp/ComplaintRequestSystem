@@ -12,55 +12,55 @@ namespace ComplaintRequestSystem.Repository.Implementations
         {
         }
 
-        public Complaint GetComplaint(Expression<Func<Complaint, bool>> expression)
+        public async Task<Complaint> GetComplaint(Expression<Func<Complaint, bool>> expression)
         {
-            var complaint = _context.Complaints
+            var complaint = await _context.Complaints
                 .Include(c => c.User)
-            .SingleOrDefault(expression);
+            .SingleOrDefaultAsync(expression);
 
             return complaint;
         }
 
-        public List<Complaint> GetComplaints()
+        public async Task<List<Complaint>> GetComplaints()
         {
-			var complaints = _context.Complaints
+			var complaints = await _context.Complaints
                 .Include(uq => uq.User)
                 .Include(d => d.Department)
-                .ToList();
+                .ToListAsync();
 
             return complaints;
         }
 
-        public List<Complaint> GetComplaints(Expression<Func<Complaint, bool>> expression)
+        public async Task<List<Complaint>> GetComplaints(Expression<Func<Complaint, bool>> expression)
         {
-            var complaints = _context.Complaints
+            var complaints = await _context.Complaints
                 .Where(expression)
                 .Include(u => u.User)
                 .Include(d => d.Department)
-                .ToList();
+                .ToListAsync();
 
             return complaints;
         }
 
-        public List<DepartmentComplaint> GetComplaintByDepartmentId(string departmentId)
+        public async Task<List<DepartmentComplaint>> GetComplaintByDepartmentId(string departmentId)
         {
-            var complaints = _context.DepartmentComplaints
+            var complaints = await _context.DepartmentComplaints
                 .Include(d => d.Department)
                 .Include(c => c.Complaint)
                 .ThenInclude(c => c.User)
                 .Where(c => c.DepartmentId.Equals(departmentId))
-                .ToList();
+                .ToListAsync();
 
             return complaints;
         }
 
-        public List<DepartmentComplaint> SelectComplaintByDepartment()
+        public async Task<List<DepartmentComplaint>> SelectComplaintByDepartment()
         {
-            var complaints = _context.DepartmentComplaints
+            var complaints = await _context.DepartmentComplaints
                 .Include(d => d.Department)
                 .Include(c => c.Complaint)
                 .ThenInclude(u => u.User)
-                .ToList();
+                .ToListAsync();
 
             return complaints;
         }

@@ -5,10 +5,10 @@ namespace ComplaintRequestSystem.Repository.Interfaces
 {
     public interface IComplaintRepository : IRepository<Complaint>
     {
-        List<Complaint> GetComplaints();
-        List<Complaint> GetComplaints(Expression<Func<Complaint, bool>> expression);
-        Complaint GetComplaint(Expression<Func<Complaint, bool>> expression);
-        List<DepartmentComplaint> GetComplaintByDepartmentId(string id);
-        List<DepartmentComplaint> SelectComplaintByDepartment();
+        Task<List<Complaint>> GetComplaints();
+        Task<List<Complaint>> GetComplaints(Expression<Func<Complaint, bool>> expression);
+        Task<Complaint> GetComplaint(Expression<Func<Complaint, bool>> expression);
+        Task<List<DepartmentComplaint>> GetComplaintByDepartmentId(string id);
+        Task<List<DepartmentComplaint>> SelectComplaintByDepartment();
     }
 }

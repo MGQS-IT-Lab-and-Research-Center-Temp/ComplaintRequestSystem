@@ -12,52 +12,52 @@ namespace ComplaintRequestSystem.Repository.Implementations
         {
         }
 
-        public Request GetRequest(Expression<Func<Request, bool>> expression)
+        public async Task<Request> GetRequest(Expression<Func<Request, bool>> expression)
         {
-            var request = _context.Requests
+            var request = await _context.Requests
                 .Include(c => c.User)
-                .SingleOrDefault(expression);
+                .SingleOrDefaultAsync(expression);
 
             return request;
         }
 
-        public List<Request> GetRequests()
+        public async Task<List<Request>> GetRequests()
         {
-            var requests = _context.Requests
+            var requests = await _context.Requests
                 .Include(uq => uq.User)
-                .ToList();
+                .ToListAsync();
 
             return requests;
         }
 
-        public List<Request> GetRequests(Expression<Func<Request, bool>> expression)
+        public async Task<List<Request>> GetRequests(Expression<Func<Request, bool>> expression)
         {
-            var requests = _context.Requests
+            var requests = await _context.Requests
                 .Where(expression)
                 .Include(u => u.User)
-                .ToList();
+                .ToListAsync();
             return requests;
         }
 
-        public List<DepartmentRequest> GetRequestsByDepartmentId(string departmentId)
+        public async Task<List<DepartmentRequest>> GetRequestsByDepartmentId(string departmentId)
         {
-            var requests = _context.DepartmentRequests
+            var requests = await _context.DepartmentRequests
                 .Include(d => d.Department)
                 .Include(r => r.Request)
                 .ThenInclude(c => c.User)
                 .Where(c => c.DepartmentId.Equals(departmentId))
-            .ToList();
+            .ToListAsync();
 
             return requests;
         }
 
-        public List<DepartmentRequest> SelectRequestByDepartment()
+        public async Task<List<DepartmentRequest>> SelectRequestByDepartment()
         {
-            var requests = _context.DepartmentRequests
+            var requests = await _context.DepartmentRequests
                 .Include(d => d.Department)
                 .Include(r => r.Request)
                 .ThenInclude(u => u.User)
-                .ToList();
+                .ToListAsync();
 
             return requests;
         }

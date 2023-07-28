@@ -41,9 +41,9 @@ namespace ComplaintRequestSystem.Controllers
 		}
 
         [Authorize]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var response = _departmentService.GetAllDepartment();
+            var response = await _departmentService.GetAllDepartment();
             ViewData["Message"] = response.Message;
             ViewData["Status"] = response.Status;
 
@@ -57,9 +57,9 @@ namespace ComplaintRequestSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult SignUp(SignUpViewModel model)
+        public async Task<IActionResult> SignUp(SignUpViewModel model)
         {
-            var response = _userService.Register(model);
+            var response = await _userService.Register(model);
 
             if (response.Status is false)
             {
@@ -80,9 +80,9 @@ namespace ComplaintRequestSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
-            var response = _userService.Login(model);
+            var response = await  _userService.Login(model);
             var user = response.Data;
 
             if (response.Status == false)
@@ -107,7 +107,7 @@ namespace ComplaintRequestSystem.Controllers
 
             var principal = new ClaimsPrincipal(claimsIdentity);
 
-            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authenticationProperties);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authenticationProperties);
 
             _notyf.Success(response.Message);
 
@@ -138,7 +138,11 @@ namespace ComplaintRequestSystem.Controllers
         }
 
 
+        
+
+       
     }
 
-   
 }
+
+

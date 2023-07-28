@@ -20,12 +20,12 @@ namespace ComplaintRequestSystem.Service.Implementations
             _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
         }
-        public BaseResponseModel CreateDepartment(CreateDepartmentViewModel request)
+        public async Task<BaseResponseModel> CreateDepartment(CreateDepartmentViewModel request)
         {
             var response = new BaseResponseModel();
             var createdBy = _httpContextAccessor.HttpContext.User.Identity.Name;
 
-            var isDepartmentExist = _unitOfWork.Departments.Exists(c => c.Name == request.Name);
+            var isDepartmentExist = await  _unitOfWork.Departments.ExistsAsync(c => c.Name == request.Name);
 
 
             if (isDepartmentExist)
@@ -49,8 +49,8 @@ namespace ComplaintRequestSystem.Service.Implementations
 
             try
             {
-                _unitOfWork.Departments.Create(department);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.Departments.CreateAsync(department);
+                _unitOfWork.SaveChangesAsync();
                 response.Status = true;
                 response.Message = "Department created successfully.";
 
@@ -64,10 +64,10 @@ namespace ComplaintRequestSystem.Service.Implementations
             }
         }
 
-        public BaseResponseModel DeleteDepartment(string departmentId)
+        public async Task<BaseResponseModel> DeleteDepartment(string departmentId)
         {
             var response = new BaseResponseModel();
-            var isDepartmentExist = _unitOfWork.Departments.Exists(c => c.Id == departmentId && !c.IsDeleted);
+            var isDepartmentExist = await  _unitOfWork.Departments.ExistsAsync(c => c.Id == departmentId && !c.IsDeleted);
 
             if (!isDepartmentExist)
             {
@@ -75,13 +75,13 @@ namespace ComplaintRequestSystem.Service.Implementations
                 return response;
             }
 
-            var department = _unitOfWork.Departments.Get(departmentId);
+            var department = await _unitOfWork.Departments.GetAsync(departmentId);
             department.IsDeleted = true;
 
             try
             {
-                _unitOfWork.Departments.Update(department);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.Departments.UpdateAsync(department);
+                _unitOfWork.SaveChangesAsync();
                 response.Status = true;
                 response.Message = "Department successfully deleted.";
 
@@ -94,14 +94,14 @@ namespace ComplaintRequestSystem.Service.Implementations
             }
         }
 
-        public DepartmentsResponseModel GetAllDepartment()
+        public async Task<DepartmentsResponseModel> GetAllDepartment()
         {
             var response = new DepartmentsResponseModel();
 
             try
             {
                 Expression<Func<Department, bool>> expression = c => c.IsDeleted == false;
-                var department = _unitOfWork.Departments.GetAll(expression);
+                var department = await _unitOfWork.Departments.GetAllAsync(expression);
 
                 if (department is null || department.Count == 0)
                 {
@@ -129,7 +129,7 @@ namespace ComplaintRequestSystem.Service.Implementations
             return response;
         }
 
-        public DepartmentResponseModel GetDepartment(string departmentId)
+        public async Task<DepartmentResponseModel> GetDepartment(string departmentId)
         {
             var response = new DepartmentResponseModel();
 
@@ -138,7 +138,7 @@ namespace ComplaintRequestSystem.Service.Implementations
                                                 && (c.Id == departmentId
                                                 && c.IsDeleted == false);
 
-            var departmentExist = _unitOfWork.Departments.Exists(expression);
+            var departmentExist = await _unitOfWork.Departments.ExistsAsync(expression);
 
             if (!departmentExist)
             {
@@ -146,7 +146,7 @@ namespace ComplaintRequestSystem.Service.Implementations
                 return response;
             }
 
-            var department = _unitOfWork.Departments.Get(departmentId);
+            var department = await _unitOfWork.Departments.GetAsync(departmentId);
 
             response.Message = "Success";
             response.Status = true;
@@ -160,20 +160,22 @@ namespace ComplaintRequestSystem.Service.Implementations
             return response;
         }
 
-        public IEnumerable<SelectListItem> SelectDepartment()
+        public async Task<IEnumerable<SelectListItem>> SelectDepartment()
         {
-            return _unitOfWork.Departments.SelectAll().Select(dept => new SelectListItem()
+            var departments = await _unitOfWork.Departments.SelectAll();
+
+            return  departments.Select(dept => new SelectListItem()
             {
                 Text = dept.Name,
                 Value = dept.Id
             });
         }
 
-        public BaseResponseModel UpdateDepartment(string departmentId, UpdateDepartmentViewModel request)
+        public async Task<BaseResponseModel> UpdateDepartment(string departmentId, UpdateDepartmentViewModel request)
         {
             var response = new BaseResponseModel();
             string modifiedBy = _httpContextAccessor.HttpContext.User.Identity.Name;
-            var departmentExist = _unitOfWork.Departments.Exists(c => c.Id == departmentId);
+            var departmentExist = await  _unitOfWork.Departments.ExistsAsync(c => c.Id == departmentId);
 
             if (!departmentExist)
             {
@@ -187,7 +189,7 @@ namespace ComplaintRequestSystem.Service.Implementations
                 return response;
             }
 
-            var department = _unitOfWork.Departments.Get(departmentId);
+            var department = await _unitOfWork.Departments.GetAsync(departmentId);
             department.Name = request.Name; 
             department.Description = request.Description;
             department.ModifiedBy = modifiedBy;
@@ -195,8 +197,8 @@ namespace ComplaintRequestSystem.Service.Implementations
             
             try 
             { 
-                _unitOfWork.Departments.Update(department);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.Departments.UpdateAsync(department);
+                _unitOfWork.SaveChangesAsync();
                 response.Status = true;
                 response.Message = "Department updated successfully.";
 
@@ -208,6 +210,7 @@ namespace ComplaintRequestSystem.Service.Implementations
                 return response;
             }
         }
+
     }
 }
 

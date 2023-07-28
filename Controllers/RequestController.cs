@@ -27,9 +27,9 @@ namespace ComplaintRequestSystem.Controllers
 			_notyf = notyf;
 		}
 
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			var requests = _requestService.GetAllRequest();
+			var requests = await _requestService.GetAllRequest();
 			ViewData["Message"] = requests.Message;
 			ViewData["Status"] = requests.Status;
 
@@ -39,9 +39,9 @@ namespace ComplaintRequestSystem.Controllers
 
 
 
-		public IActionResult Create()
+		public async Task<IActionResult> Create()
 		{
-			ViewBag.Departments = _departmentService.SelectDepartment();
+			ViewBag.Departments = await _departmentService.SelectDepartment();
 			ViewData["Message"] = "";
 			ViewData["Status"] = false;
 
@@ -49,9 +49,9 @@ namespace ComplaintRequestSystem.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Create(CreateRequestViewModel request)
+		public async Task<IActionResult> Create(CreateRequestViewModel request)
 		{
-			var response = _requestService.CreateRequest(request);
+			var response = await _requestService.CreateRequest(request);
 
 			if (response.Status is false)
 			{
@@ -64,35 +64,35 @@ namespace ComplaintRequestSystem.Controllers
 			return RedirectToAction("Index", "Request");
 		}
 
-		public IActionResult GetRequestsByDepartment(string id)
+		public async Task<IActionResult> GetRequestsByDepartment(string id)
 		{
-			var response = _requestService.GetRequestsByDepartmentId(id);
+			var response = await _requestService.GetRequestsByDepartmentId(id);
 			ViewData["Message"] = response.Message;
 			ViewData["Status"] = response.Status;
 
 			return View(response.Data);
 		}
 
-		public IActionResult GetRequestDetail(string id)
+		public async Task<IActionResult> GetRequestDetail(string id)
 		{
-			var response = _requestService.GetRequest(id);
+			var response = await _requestService.GetRequest(id);
 			ViewData["Message"] = response.Message;
 			ViewData["Status"] = response.Status;
 
 			return View(response.Data);
 		}
 
-		public IActionResult Update(string id)
+		public async Task<IActionResult> Update(string id)
 		{
-			var response = _requestService.GetRequest(id);
+			var response = await _requestService.GetRequest(id);
 
 			return View(response.Data);
 		}
 
 		[HttpPost]
-		public IActionResult Update(string id, UpdateRequestViewModel request)
+		public async Task<IActionResult> Update(string id, UpdateRequestViewModel request)
 		{
-			var response = _requestService.UpdateRequest(id, request);
+			var response = await _requestService.UpdateRequest(id, request);
 
 			if (response.Status is false)
 			{
@@ -107,9 +107,9 @@ namespace ComplaintRequestSystem.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult DeleteRequest([FromRoute] string id)
+		public async Task<IActionResult> DeleteRequest([FromRoute] string id)
 		{
-			var response = _requestService.DeleteRequest(id);
+			var response = await _requestService.DeleteRequest(id);
 
 			if (response.Status is false)
 			{

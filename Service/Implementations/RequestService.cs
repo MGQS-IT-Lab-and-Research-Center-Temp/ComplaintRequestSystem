@@ -21,12 +21,12 @@ namespace ComplaintRequestSystem.Service.Implementations
             _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
         }
-        public BaseResponseModel CreateRequest(CreateRequestViewModel request)
+        public async Task<BaseResponseModel> CreateRequest(CreateRequestViewModel request)
         {
             var response = new BaseResponseModel();
             var createdBy = _httpContextAccessor.HttpContext.User.Identity.Name;
             var userIdClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            var user = _unitOfWork.Users.Get(userIdClaim);
+            var user =  await _unitOfWork.Users.GetAsync(userIdClaim);
 
             var newRequest = new Request
             {
@@ -42,7 +42,7 @@ namespace ComplaintRequestSystem.Service.Implementations
                 return response;
             }
 
-            var departments = _unitOfWork.Departments.GetAllByIds(request.DepartmentIds);
+            var departments = await _unitOfWork.Departments.GetAllByIdsAsync(request.DepartmentIds);
 
             var departmentRequests = new HashSet<DepartmentRequest>();
 
@@ -63,8 +63,8 @@ namespace ComplaintRequestSystem.Service.Implementations
 
             try
             {
-                _unitOfWork.Requests.Create(newRequest);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.Requests.CreateAsync(newRequest);
+                _unitOfWork.SaveChangesAsync();
                 response.Message = "Request created successfully!";
                 response.Status = true;
 
@@ -77,7 +77,7 @@ namespace ComplaintRequestSystem.Service.Implementations
             }
         }
 
-        public BaseResponseModel DeleteRequest(string requestId)
+        public async Task<BaseResponseModel> DeleteRequest(string requestId)
         {
             var response = new BaseResponseModel();
 
@@ -86,7 +86,7 @@ namespace ComplaintRequestSystem.Service.Implementations
                                         && c.IsDeleted == false
                                         && c.IsClosed == false));
 
-            var requestExist = _unitOfWork.Requests.Exists(expression);
+            var requestExist = await  _unitOfWork.Requests.ExistsAsync(expression);
 
             if (!requestExist)
             {
@@ -95,13 +95,13 @@ namespace ComplaintRequestSystem.Service.Implementations
             }
 
 
-            var request = _unitOfWork.Requests.Get(requestId);
+            var request = await _unitOfWork.Requests.GetAsync(requestId);
             request.IsDeleted = true;
 
             try
             {
-                _unitOfWork.Requests.Update(request);
-                _unitOfWork.SaveChanges();
+                _unitOfWork.Requests.UpdateAsync(request);
+                _unitOfWork.SaveChangesAsync();
                 response.Message = "Request deleted successfully!";
                 response.Status = true;
 
@@ -114,7 +114,7 @@ namespace ComplaintRequestSystem.Service.Implementations
             }
         }
 
-        public RequestsResponseModel GetAllRequest()
+        public async Task<RequestsResponseModel> GetAllRequest()
         {
             var response = new RequestsResponseModel();
 
@@ -124,7 +124,7 @@ namespace ComplaintRequestSystem.Service.Implementations
                 var userIdClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                 Expression<Func<Request, bool>> expression = q => q.UserId == userIdClaim;
 
-                var requests = IsInRole ? _unitOfWork.Requests.GetRequests() : _unitOfWork.Requests.GetRequests(expression);
+                var requests = IsInRole ? await _unitOfWork.Requests.GetRequests() : await _unitOfWork.Requests.GetRequests(expression);
 
                 if (requests.Count == 0)
                 {
@@ -154,13 +154,13 @@ namespace ComplaintRequestSystem.Service.Implementations
             return response;
         }
 
-        public RequestsResponseModel GetRequestsByDepartmentId(string departmentId)
+        public async Task<RequestsResponseModel> GetRequestsByDepartmentId(string departmentId)
         {
             var response = new RequestsResponseModel();
 
             try
             {
-                var requests = _unitOfWork.Requests.GetRequestsByDepartmentId(departmentId);
+                var requests = await _unitOfWork.Requests.GetRequestsByDepartmentId(departmentId);
 
                 if (requests.Count == 0)
                 {
@@ -189,10 +189,10 @@ namespace ComplaintRequestSystem.Service.Implementations
             return response;
         } 
 
-	    public RequestResponseModel GetRequest(string requestId)
+	    public async Task<RequestResponseModel> GetRequest(string requestId)
         {
             var response = new RequestResponseModel();
-            var requestExist = _unitOfWork.Requests.Exists(q => q.Id == requestId && q.IsDeleted == false);
+            var requestExist = await _unitOfWork.Requests.ExistsAsync(q => q.Id == requestId && q.IsDeleted == false);
             var IsInRole = _httpContextAccessor.HttpContext.User.IsInRole("Admin");
             var userIdClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var request = new Request();
@@ -203,8 +203,8 @@ namespace ComplaintRequestSystem.Service.Implementations
                 return response;
             }
 
-            request = IsInRole ? _unitOfWork.Requests.GetRequest(q => q.Id == requestId && !q.IsDeleted) :
-                _unitOfWork.Requests.GetRequest(q => q.Id == requestId
+            request = IsInRole ? await _unitOfWork.Requests.GetRequest(q => q.Id == requestId && !q.IsDeleted) :
+                await _unitOfWork.Requests.GetRequest(q => q.Id == requestId
                                                  && q.UserId == userIdClaim
                                                  && !q.IsDeleted);
 
@@ -229,13 +229,13 @@ namespace ComplaintRequestSystem.Service.Implementations
         }
 
 
-        public BaseResponseModel UpdateRequest(string requestId, UpdateRequestViewModel request)
+        public async Task<BaseResponseModel> UpdateRequest(string requestId, UpdateRequestViewModel request)
         {
             var response = new BaseResponseModel();
             var modifiedBy = _httpContextAccessor.HttpContext.User.Identity.Name;
-            var requestExist = _unitOfWork.Requests.Exists(c => c.Id == requestId);
+            var requestExist = await _unitOfWork.Requests.ExistsAsync(c => c.Id == requestId);
             var userIdClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            var user = _unitOfWork.Users.Get(userIdClaim);
+            var user = _unitOfWork.Users.GetAsync(userIdClaim);
 
             if (!requestExist)
             {
@@ -243,9 +243,9 @@ namespace ComplaintRequestSystem.Service.Implementations
                 return response;
             }
 
-            var newRequest = _unitOfWork.Requests.Get(requestId);
+            var newRequest = await _unitOfWork.Requests.GetAsync(requestId);
 
-            if (newRequest.UserId != user.Id)
+            if (newRequest.UserId != user.Id.ToString())
             {
                 response.Message = "You cannot update this request";
                 return response;
@@ -256,8 +256,8 @@ namespace ComplaintRequestSystem.Service.Implementations
 
             try
             {
-                _unitOfWork.Requests.Update(newRequest);
-                _unitOfWork.SaveChanges();
+                await _unitOfWork.Requests.UpdateAsync(newRequest);
+                await _unitOfWork.SaveChangesAsync();
                 response.Message = "Request updated successfully!";
                 response.Status = true;
                 return response;
@@ -268,6 +268,8 @@ namespace ComplaintRequestSystem.Service.Implementations
                 return response;
             }
         }
+
+       
     }
 
 }

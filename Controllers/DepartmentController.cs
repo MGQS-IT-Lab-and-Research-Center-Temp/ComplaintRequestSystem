@@ -16,9 +16,9 @@ namespace ComplaintRequestSystem.Controllers
             _departmentService = departmentService;
             _notyf = notyf;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var response = _departmentService.GetAllDepartment();
+            var response = await _departmentService.GetAllDepartment();
             ViewData["Message"] = response.Message;
             ViewData["Status"] = response.Status;
 
@@ -31,9 +31,9 @@ namespace ComplaintRequestSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateDepartmentViewModel request)
+        public async Task<IActionResult> Create(CreateDepartmentViewModel request)
         {
-            var response = _departmentService.CreateDepartment(request);
+            var response = await _departmentService.CreateDepartment(request);
 
             if (response.Status is false)
             {
@@ -46,9 +46,9 @@ namespace ComplaintRequestSystem.Controllers
             return RedirectToAction("Index", "Department");
         }
 
-        public IActionResult GetDepartment(string id)
+        public async Task<IActionResult> GetDepartment(string id)
         {
-            var response = _departmentService.GetDepartment(id);
+            var response = await _departmentService.GetDepartment(id);
 
             if (response.Status is false)
             {
@@ -68,9 +68,9 @@ namespace ComplaintRequestSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(string id, UpdateDepartmentViewModel request)
+        public async Task<IActionResult> Update(string id, UpdateDepartmentViewModel request)
         {
-            var response = _departmentService.UpdateDepartment(id, request);
+            var response = await _departmentService.UpdateDepartment(id, request);
 
             if (response.Status is false)
             {
@@ -84,9 +84,9 @@ namespace ComplaintRequestSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteDepartment([FromRoute] string id)
+        public async Task<IActionResult> DeleteDepartment([FromRoute] string id)
         {
-            var response = _departmentService.DeleteDepartment(id);
+            var response = await _departmentService.DeleteDepartment(id);
 
             if (response.Status is false)
             {

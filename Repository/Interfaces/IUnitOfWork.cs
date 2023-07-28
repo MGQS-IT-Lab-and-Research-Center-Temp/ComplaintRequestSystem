@@ -7,6 +7,6 @@
         IComplaintRepository Complaints { get; }
         IRequestRepository Requests { get; }
         IDepartmentRepository Departments { get; }
-        int SaveChanges();
+        Task<int> SaveChangesAsync();
     }
 }

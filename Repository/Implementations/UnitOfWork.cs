@@ -29,9 +29,9 @@ namespace ComplaintRequestSystem.Repository.Implementations
             Departments = departmentRepository;
         }
 
-        public int SaveChanges()
+        public async Task<int> SaveChangesAsync()
         {
-            return _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
 
         protected virtual void Dispose(bool disposing)

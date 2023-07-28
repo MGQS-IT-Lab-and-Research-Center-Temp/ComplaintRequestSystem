@@ -2,6 +2,7 @@
 using ComplaintRequestSystem.Entities;
 using ComplaintRequestSystem.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System.Linq.Expressions;
 
 namespace ComplaintRequestSystem.Repository.Implementations
@@ -12,13 +13,15 @@ namespace ComplaintRequestSystem.Repository.Implementations
         {
         }
 
-        public User GetUser(Expression<Func<User, bool>> expression)
+        public async Task<User> GetUser(Expression<Func<User, bool>> expression)
         {
-			return _context.Users
+			return await _context.Users
                 .Include(r => r.Role)
-                .SingleOrDefault(expression);
+                .SingleOrDefaultAsync(expression);
 				
                
         }
+
+        
     }
 }
