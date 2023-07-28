@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ComplaintRequestSystem.Migrations
 {
-    public partial class myMigration : Migration
+    public partial class New : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,11 +19,11 @@ namespace ComplaintRequestSystem.Migrations
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true),
-                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -38,11 +38,11 @@ namespace ComplaintRequestSystem.Migrations
                     Id = table.Column<string>(type: "varchar(255)", nullable: false),
                     RoleName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false),
-                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -60,11 +60,11 @@ namespace ComplaintRequestSystem.Migrations
                     PasswordHash = table.Column<string>(type: "longtext", nullable: false),
                     Email = table.Column<string>(type: "longtext", nullable: false),
                     RoleId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -89,11 +89,11 @@ namespace ComplaintRequestSystem.Migrations
                     ImageUrl = table.Column<string>(type: "longtext", nullable: true),
                     status = table.Column<int>(type: "int", nullable: false),
                     ComplaintText = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false),
-                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -122,11 +122,11 @@ namespace ComplaintRequestSystem.Migrations
                     ImageUrl = table.Column<string>(type: "longtext", nullable: true),
                     status = table.Column<int>(type: "int", nullable: false),
                     RequestText = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false),
-                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -146,11 +146,11 @@ namespace ComplaintRequestSystem.Migrations
                 {
                     DepartmentId = table.Column<string>(type: "varchar(255)", nullable: false),
                     ComplaintId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -176,11 +176,11 @@ namespace ComplaintRequestSystem.Migrations
                 {
                     DepartmentId = table.Column<string>(type: "varchar(255)", nullable: false),
                     RequestId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    CreatedBy = table.Column<string>(type: "longtext", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "longtext", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CreatedBy = table.Column<string>(type: "longtext", nullable: false),
+                    ModifiedBy = table.Column<string>(type: "longtext", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
