@@ -40,8 +40,8 @@ namespace ComplaintRequestSystem.Service.Implementations
 
             try
             {
-                _unitOfWork.Roles.CreateAsync(role);
-                _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.Roles.CreateAsync(role);
+                await _unitOfWork.SaveChangesAsync();
                 response.Status = true;
                 response.Message = "Role created successfully.";
 
@@ -76,8 +76,8 @@ namespace ComplaintRequestSystem.Service.Implementations
 
             try
             {
-                _unitOfWork.Roles.UpdateAsync(role);
-                _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.Roles.UpdateAsync(role);
+                await _unitOfWork.SaveChangesAsync();
                 response.Status = true;
                 response.Message = "Role deleted successfully.";
                 return response;
@@ -171,8 +171,8 @@ namespace ComplaintRequestSystem.Service.Implementations
 
             try
             {
-                _unitOfWork.Roles.UpdateAsync(role);
-                _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.Roles.UpdateAsync(role);
+                await _unitOfWork.SaveChangesAsync();
                 response.Message = "Role updated successfully.";
                 response.Status = true;
 

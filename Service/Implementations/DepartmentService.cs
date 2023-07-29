@@ -49,10 +49,10 @@ namespace ComplaintRequestSystem.Service.Implementations
 
             try
             {
-                _unitOfWork.Departments.CreateAsync(department);
-                _unitOfWork.SaveChangesAsync();
-                response.Status = true;
-                response.Message = "Department created successfully.";
+               await _unitOfWork.Departments.CreateAsync(department);
+               await _unitOfWork.SaveChangesAsync();
+               response.Status = true;
+               response.Message = "Department created successfully.";
 
                 return response;
             }
@@ -80,8 +80,8 @@ namespace ComplaintRequestSystem.Service.Implementations
 
             try
             {
-                _unitOfWork.Departments.UpdateAsync(department);
-                _unitOfWork.SaveChangesAsync();
+               await _unitOfWork.Departments.UpdateAsync(department);
+               await _unitOfWork.SaveChangesAsync();
                 response.Status = true;
                 response.Message = "Department successfully deleted.";
 
@@ -197,8 +197,8 @@ namespace ComplaintRequestSystem.Service.Implementations
             
             try 
             { 
-                _unitOfWork.Departments.UpdateAsync(department);
-                _unitOfWork.SaveChangesAsync();
+               await _unitOfWork.Departments.UpdateAsync(department);
+                await _unitOfWork.SaveChangesAsync();
                 response.Status = true;
                 response.Message = "Department updated successfully.";
 

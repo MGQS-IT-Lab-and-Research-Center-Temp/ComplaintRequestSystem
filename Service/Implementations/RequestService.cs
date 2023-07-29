@@ -63,8 +63,8 @@ namespace ComplaintRequestSystem.Service.Implementations
 
             try
             {
-                _unitOfWork.Requests.CreateAsync(newRequest);
-                _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.Requests.CreateAsync(newRequest);
+                await _unitOfWork.SaveChangesAsync();
                 response.Message = "Request created successfully!";
                 response.Status = true;
 
@@ -100,8 +100,8 @@ namespace ComplaintRequestSystem.Service.Implementations
 
             try
             {
-                _unitOfWork.Requests.UpdateAsync(request);
-                _unitOfWork.SaveChangesAsync();
+               await _unitOfWork.Requests.UpdateAsync(request);
+               await _unitOfWork.SaveChangesAsync();
                 response.Message = "Request deleted successfully!";
                 response.Status = true;
 

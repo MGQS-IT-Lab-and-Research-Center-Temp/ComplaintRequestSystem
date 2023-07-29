@@ -52,7 +52,6 @@ namespace ComplaintRequestSystem.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
@@ -94,7 +93,6 @@ namespace ComplaintRequestSystem.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -132,7 +130,6 @@ namespace ComplaintRequestSystem.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("DepartmentId", "ComplaintId");
@@ -164,7 +161,6 @@ namespace ComplaintRequestSystem.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("DepartmentId", "RequestId");
@@ -199,7 +195,6 @@ namespace ComplaintRequestSystem.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("RequestText")
@@ -245,7 +240,6 @@ namespace ComplaintRequestSystem.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("RoleName")
@@ -288,7 +282,6 @@ namespace ComplaintRequestSystem.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ModifiedBy")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("PasswordHash")

@@ -5,6 +5,7 @@ using ComplaintRequestSystem.Models.User;
 using ComplaintRequestSystem.Models;
 using ComplaintRequestSystem.Repository.Interfaces;
 using ComplaintRequestSystem.Service.Interfaces;
+using System.Security.Claims;
 
 namespace ComplaintRequestSystem.Service.Implementations
 {
@@ -29,7 +30,7 @@ namespace ComplaintRequestSystem.Service.Implementations
                 return response;
             }
             string hashedPassword = HashingHelper.HashPassword(request.Password, saltString);
-			var createdBy = _httpContextAccessor.HttpContext.User.Identity.Name;
+            var createdBy = _httpContextAccessor.HttpContext.User.GetType().Name;
 			var userExist = await _unitOfWork.Users.ExistsAsync(x => x.UserName == request.UserName || x.Email == request.Email);
 
 			if (userExist)
@@ -62,8 +63,8 @@ namespace ComplaintRequestSystem.Service.Implementations
 
 			try
 			{
-				_unitOfWork.Users.CreateAsync(user);
-				_unitOfWork.SaveChangesAsync();
+				await _unitOfWork.Users.CreateAsync(user);
+				await _unitOfWork.SaveChangesAsync();
 				response.Message = $"You have succesfully signed up on ComplaintRequestSysteem";
 				response.Status = true;
 
